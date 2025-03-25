@@ -1,7 +1,7 @@
 /** Import des librairies */
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { getOneCartoonById, getCartoons, createCartoon } from "./resolvers/cartoon.resolver";
+import { getOneCartoonById, getCartoons, createCartoon, deleteCartoon } from "./resolvers/cartoon.resolver";
 import { Personnage, PersonnageInput } from "./schemas/personnage.schema";
 import { Cartoon, CartoonInput } from "./schemas/cartoon.schema";
 
@@ -9,7 +9,10 @@ const typeDefs = `#graphql
   # This "Cartoon" type defines the queryable fields for every cartoon in our data source.
   type Cartoon ${Cartoon}
   type Personnage ${Personnage}
-  type Mutation { createCartoon(cartoon: CartoonInput): ID }
+  type Mutation {
+    createCartoon(cartoon: CartoonInput): ID,
+    deleteCartoon(id: ID!): ID
+  }
 
   input PersonnageInput ${PersonnageInput}
   input CartoonInput ${CartoonInput}
@@ -28,7 +31,8 @@ const resolvers = {
     getOneCartoonById,
   },
   Mutation: {
-    createCartoon
+    createCartoon,
+    deleteCartoon
   },
 };
 
