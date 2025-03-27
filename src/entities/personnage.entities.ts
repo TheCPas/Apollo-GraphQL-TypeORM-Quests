@@ -1,4 +1,5 @@
-import  {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import  {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import { Cartoon } from './cartoon.entities';
 @Entity()
 
 export class Personnage {
@@ -13,4 +14,7 @@ export class Personnage {
 
   @Column()
   short_description: string;
+
+  @ManyToOne(() => Cartoon, cartoon => cartoon.genres)
+  cartoon: Cartoon;
 }
