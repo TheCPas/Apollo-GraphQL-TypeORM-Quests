@@ -1,29 +1,72 @@
 import { Cartoon } from "../entities/cartoon.entities";
 import { Personnage } from "../entities/personnage.entities";
 import { Genre } from "../entities/genre.entities";
-import { Resolver, Query, Mutation } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, InputType, Field, Int } from "type-graphql";
+import { DeleteResult } from "typeorm";
 
-type CartoonId = {
-  id: string;
-}
+@InputType()
+class GenreInput {
+  @Field()
+  name: string
+};
 
+@InputType()
+class PersonnageInput {
+  @Field()
+  name: string
+
+  @Field()
+  role: string
+
+  @Field()
+  short_description: string
+};
+@InputType()
+class CartoonInput {
+  @Field()
+  name: string
+
+  @Field()
+  description: string
+
+  @Field()
+  nb_of_episodes: number
+
+  @Field()
+  nb_of_seasons: number
+
+  @Field(() => [GenreInput])
+  genres: [GenreInput]
+
+  @Field()
+  realisator: string
+
+  @Field()
+  author: string
+
+  @Field()
+  ft_diffusion: string
+
+  @Field(() => [PersonnageInput])
+  personnages: [PersonnageInput]
+};
 @Resolver(Cartoon)
 export default class CartoonResolvers {
 
   @Query(()=> Cartoon, { nullable: true })
-  async getOneCartoonById (_: unknown, args: CartoonId): Promise<Cartoon | null>
+  async getOneCartoonById (@Arg("id") id: string): Promise<Cartoon | null>
   {
-    return Cartoon.findOne({where : {id: parseInt(args.id)}});
+    return await Cartoon.findOne({where : {id: parseInt(id)}});
   };
 
   @Query(()=> [Cartoon])
   async getCartoons(): Promise<Cartoon[]> {
-    return Cartoon.find();
+    return await Cartoon.find();
   };
 
-  @Mutation(() => Number)
-  async createCartoon (_: unknown, args: { cartoon: Cartoon }): Promise<number> {
-    const {personnages, genres, ...rest} = args.cartoon;
+  @Mutation(() => Int)
+  async createCartoon (@Arg("id") cartoon: CartoonInput): Promise<number> {
+    const {personnages, genres, ...rest} = cartoon;
 
     const newPersonnages = personnages?.map((perso) => {
       const myPers = new Personnage();
@@ -50,8 +93,11 @@ export default class CartoonResolvers {
   };
 
   @Mutation(() => Boolean)
-  async deleteCartoon(_: unknown, args: CartoonId): Promise<boolean> {
-    const deleteResult =await Cartoon.delete({id: parseInt(args.id)});
-    return deleteResult.affected ? true : false;
+  async deleteCartoon(@Arg("id") id: string): Promise<boolean> {
+    const result: DeleteResult =await Cartoon.delete({id: parseInt(id)});
+    if (result.affected && result.affected > 1) {
+      return true;
+    }
+    return false;
   };
 }

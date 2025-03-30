@@ -1,16 +1,8 @@
-import { InputType, Field } from "type-graphql";
-
-@InputType()
-export class Genre {
-  @Field()
-  id: number
-
-  @Field()
+export const Genre = `{
+  id: ID
   name: String
-};
+}`;
 
-@InputType()
-export class GenreInput {
-  @Field()
+export const GenreInput = `{
   name: String
-};
+}`;

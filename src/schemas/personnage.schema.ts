@@ -1,28 +1,12 @@
-import { InputType, Field } from "type-graphql";
+export const Personnage = `{
+  id: ID
+  name: String
+  role: String
+  short_description: String
+}`;
 
-@InputType()
-export class Personnage {
-  @Field()
-  id: number
-
-  @Field()
-  name: string
-
-  @Field()
-  role: string
-
-  @Field()
-  short_description: string
-};
-
-@InputType()
-export class PersonnageInput {
-  @Field()
-  name: string
-
-  @Field()
-  role: string
-
-  @Field()
-  short_description: string
-};
+export const PersonnageInput = `{
+  name: String
+  role: String
+  short_description: String
+}`;

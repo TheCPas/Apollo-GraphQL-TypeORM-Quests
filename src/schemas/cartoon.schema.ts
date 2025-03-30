@@ -1,66 +1,25 @@
-import { InputType, Field } from "type-graphql";
-import { Genre, GenreInput } from "../schemas/genre.schema";
-import { Personnage, PersonnageInput } from "../schemas/personnage.schema";
 
-@InputType()
-export class Cartoon {
-  @Field()
-  id: number
-
-  @Field()
-  name: string
-
-  @Field()
-  description: string
-
-  @Field()
-  nb_of_episodes: number
-
-  @Field()
-  nb_of_seasons: number
-
-  @Field(() => [Genre])
+export const Cartoon = `{
+  id: ID
+  name: String
+  description: String
+  nb_of_episodes: Int
+  nb_of_seasons: Int
   genres: [Genre]
-
-  @Field()
-  realisator: string
-
-  @Field()
-  author: string
-
-  @Field()
-  ft_diffusion: string
-
-  @Field(() => [Personnage])
+  realisator: String
+  author: String
+  ft_diffusion: String
   personnages: [Personnage]
-};
+}`;
 
-@InputType()
-export class CartoonInput {
-  @Field()
-  name: string
-
-  @Field()
-  description: string
-
-  @Field()
-  nb_of_episodes: number
-
-  @Field()
-  nb_of_seasons: number
-
-  @Field(() => [GenreInput])
+export const CartoonInput = `{
+  name: String
+  description: String
+  nb_of_episodes: Int
+  nb_of_seasons: Int
   genres: [GenreInput]
-
-  @Field()
-  realisator: string
-
-  @Field()
-  author: string
-
-  @Field()
-  ft_diffusion: string
-
-  @Field(() => [PersonnageInput])
+  realisator: String
+  author: String
+  ft_diffusion: String
   personnages: [PersonnageInput]
-};
+}`;
