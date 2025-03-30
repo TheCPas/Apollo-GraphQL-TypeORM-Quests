@@ -1,10 +1,10 @@
 import  {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { Cartoon } from './cartoon.entities';
-@Entity()
 
+@Entity()
 export class Personnage {
   @PrimaryGeneratedColumn()
-  personnage_id: number;
+  id: number;
 
   @Column()
   name: string;
@@ -15,6 +15,6 @@ export class Personnage {
   @Column()
   short_description: string;
 
-  @ManyToOne(() => Cartoon, cartoon => cartoon.genres)
+  @ManyToOne(() => Cartoon, cartoon => cartoon.personnages, {onDelete:'CASCADE'})
   cartoon: Cartoon;
 }

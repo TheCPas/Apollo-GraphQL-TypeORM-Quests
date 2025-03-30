@@ -3,11 +3,11 @@ import { Cartoon } from "./cartoon.entities";
 @Entity()
 export class Genre {
   @PrimaryGeneratedColumn()
-  genre_id: number;
+  id: number;
 
   @Column()
   name: string;
 
-  @ManyToOne(() => Cartoon, cartoon => cartoon.genres)
+  @ManyToOne(() => Cartoon, cartoon => cartoon.genres, {onDelete:'CASCADE'})
   cartoon: Cartoon;
 }

@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <h1>Mon app de Cartoons</h1>
-      {console.log(data)}
+      {data}
     </>
   )
 }
