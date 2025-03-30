@@ -21,7 +21,6 @@ export class Personnage {
   @Column()
   short_description: string;
 
-  @Field(() => Cartoon)
   @ManyToOne(() => Cartoon, cartoon => cartoon.personnages, {onDelete:'CASCADE'})
   cartoon: Cartoon;
 }

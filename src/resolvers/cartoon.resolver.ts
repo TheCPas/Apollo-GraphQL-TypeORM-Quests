@@ -56,12 +56,17 @@ export default class CartoonResolvers {
   @Query(()=> Cartoon, { nullable: true })
   async getOneCartoonById (@Arg("id") id: string): Promise<Cartoon | null>
   {
-    return await Cartoon.findOne({where : {id: parseInt(id)}});
+    return await Cartoon.findOne({
+      where : {id: parseInt(id)},
+      relations: ["genres", "personnages"]
+    });
   };
 
   @Query(()=> [Cartoon])
   async getCartoons(): Promise<Cartoon[]> {
-    return await Cartoon.find();
+    return await Cartoon.find({
+      relations: ["genres", "personnages"],
+    });
   };
 
   @Mutation(() => Int)

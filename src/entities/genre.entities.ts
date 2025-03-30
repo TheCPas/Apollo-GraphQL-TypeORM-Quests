@@ -13,7 +13,6 @@ export class Genre {
   @Column()
   name: string;
 
-  @Field(() => Cartoon)
   @ManyToOne(() => Cartoon, cartoon => cartoon.genres, {onDelete:'CASCADE'})
   cartoon: Cartoon;
 }
