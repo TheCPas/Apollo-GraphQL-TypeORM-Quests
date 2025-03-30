@@ -1,22 +1,27 @@
 import { Cartoon } from "../entities/cartoon.entities";
 import { Personnage } from "../entities/personnage.entities";
 import { Genre } from "../entities/genre.entities";
+import { Resolver, Query, Mutation } from "type-graphql";
 
 type CartoonId = {
   id: string;
 }
 
+@Resolver(Cartoon)
 export default class CartoonResolvers {
 
+  @Query(()=> Cartoon, { nullable: true })
   async getOneCartoonById (_: unknown, args: CartoonId): Promise<Cartoon | null>
   {
     return Cartoon.findOne({where : {id: parseInt(args.id)}});
   };
 
+  @Query(()=> [Cartoon])
   async getCartoons(): Promise<Cartoon[]> {
     return Cartoon.find();
   };
 
+  @Mutation(() => Number)
   async createCartoon (_: unknown, args: { cartoon: Cartoon }): Promise<number> {
     const {personnages, genres, ...rest} = args.cartoon;
 
@@ -44,6 +49,7 @@ export default class CartoonResolvers {
     return result.id;
   };
 
+  @Mutation(() => Boolean)
   async deleteCartoon(_: unknown, args: CartoonId): Promise<boolean> {
     const deleteResult =await Cartoon.delete({id: parseInt(args.id)});
     return deleteResult.affected ? true : false;
