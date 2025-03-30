@@ -1,12 +1,14 @@
 /** Import des librairies */
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { getOneCartoonById, getCartoons, createCartoon, deleteCartoon } from "./resolvers/cartoon.resolver";
+import CartoonResolvers from "./resolvers/cartoon.resolver";
 import { Genre, GenreInput } from "./schemas/genre.schema";
 import { Personnage, PersonnageInput } from "./schemas/personnage.schema";
 import { Cartoon, CartoonInput } from "./schemas/cartoon.schema";
 import "reflect-metadata";
 import { dataSource } from "./DB/client";
+
+const CartoonResolverss = new CartoonResolvers();
 
 const typeDefs = `#graphql
   # This "Cartoon" type defines the queryable fields for every cartoon in our data source.
@@ -32,12 +34,12 @@ const typeDefs = `#graphql
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    getCartoons,
-    getOneCartoonById,
+    getCartoons: CartoonResolverss.getCartoons,
+    getOneCartoonById: CartoonResolverss.getOneCartoonById,
   },
   Mutation: {
-    createCartoon,
-    deleteCartoon
+    createCartoon: CartoonResolverss.createCartoon,
+    deleteCartoon: CartoonResolverss.deleteCartoon,
   },
 };
 
